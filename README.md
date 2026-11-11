@@ -94,6 +94,83 @@ tld    = letter{2,}
 
 The subset DFA has nine reachable non-empty subsets. Minimisation merges `{n0}` and `{n2}` because their future language is identical: both require an alphanumeric character next.
 
+
+## Automata diagrams
+
+The diagrams below are rendered by GitHub from Mermaid source, so no separate screenshots or image assets are needed.
+
+### ATM PIN format DFA
+
+```mermaid
+flowchart LR
+    S((Start)) --> q0((q0))
+    q0 -->|D| q1((q1))
+    q1 -->|D| q2((q2))
+    q2 -->|D| q3((q3))
+    q3 -->|D| q4(((q4 · Accept)))
+    q0 -->|O| T((Trap))
+    q1 -->|O| T
+    q2 -->|O| T
+    q3 -->|O| T
+    q4 -->|D or O| T
+    T -->|D or O| T
+    q4 -->|extra digit| T
+```
+
+### Password validator construction
+
+The password recognizer is built as the product/intersection of four class-presence DFAs and one length DFA. This construction view is more readable than drawing all reachable product states in one diagram.
+
+```mermaid
+flowchart TD
+    U[Contains uppercase] --> P[Product / intersection DFA]
+    L[Contains lowercase] --> P
+    D[Contains digit] --> P
+    S[Contains allowed special] --> P
+    N[Length 8 to 16] --> P
+    P --> A{All five conditions satisfied?}
+    A -->|Yes| Y((Accept))
+    A -->|No| R((Reject))
+```
+
+### Email-format NFA
+
+```mermaid
+flowchart LR
+    n0((n0)) -->|L or D| n1((n1))
+    n1 -->|L or D| n1
+    n1 -->|DOT, HY or US| n2((n2))
+    n2 -->|L or D| n1
+    n1 -->|AT| n3((n3))
+    n3 -->|L or D| n4((n4))
+    n4 -->|L or D| n4
+    n4 -->|HY| n5((n5))
+    n5 -->|HY| n5
+    n5 -->|L or D| n4
+    n4 -->|DOT| n3
+    n4 -->|DOT| n6((n6))
+    n6 -->|L| n7((n7))
+    n7 -->|L| n8(((n8 · Accept)))
+    n8 -->|L| n8
+```
+
+The two outgoing `DOT` transitions from `n4` are the NFA's nondeterministic choice: continue with another domain label (`n3`) or begin the final TLD (`n6`).
+
+### ATM consecutive-failure lockout DFA
+
+```mermaid
+flowchart LR
+    S((Start)) --> s0((s0 · 0 failures))
+    s0 -->|W| s1((s1 · 1 failure))
+    s1 -->|W| s2((s2 · 2 failures))
+    s2 -->|W| LOCK(((LOCK)))
+    s0 -->|C| AUTH(((AUTH · Accept)))
+    s1 -->|C| AUTH
+    s2 -->|C| AUTH
+    AUTH -->|C or W| AUTH
+    LOCK -->|C or W| LOCK
+```
+
 ## Test cases
 
 | Application | Accepted examples | Rejected examples |
