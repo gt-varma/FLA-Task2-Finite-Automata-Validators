@@ -18,6 +18,10 @@ def test_password_boundary():
  assert not PASSWORD_DFA.accepts("Abcde1!") and not PASSWORD_DFA.accepts("A"*14+"a1!X")
 def test_email_against_regex_exhaustive_short_strings():
  p=re.compile(r"^[A-Za-z0-9]+([._-][A-Za-z0-9]+)*@[A-Za-z0-9]+(-+[A-Za-z0-9]+)*(\.[A-Za-z0-9]+(-+[A-Za-z0-9]+)*)*\.[A-Za-z]{2,}$")
+ for s in TESTS["email"]["accept"]:
+  assert EMAIL_NFA.accepts(s)==bool(p.fullmatch(s)),s
+ for s in TESTS["email"]["reject"]:
+  assert EMAIL_NFA.accepts(s)==bool(p.fullmatch(s)),s
  for n in range(6):
   for t in itertools.product("a1.@-_",repeat=n):
    s="".join(t);assert EMAIL_NFA.accepts(s)==bool(p.fullmatch(s)),s
