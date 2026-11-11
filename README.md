@@ -195,12 +195,3 @@ tests/               automated verification tests
 docs/                browser demo (HTML/CSS/JavaScript)
 README.md            project documentation
 ```
-
-
----
-
-## Task 3 — Pushdown Automata and Context-Free Grammars
-
-The Task 3 case-study extension is maintained separately in [`task3/`](task3/README.md). It covers balanced bracket validation, arithmetic-expression syntax, and palindrome recognition, with CFG productions, PDA design notes, derivations, examples, and tests.
-
-See the [Task 3 report](task3/REPORT.md) and [Task 3 implementation](task3/pda_cfg/).
