@@ -9,7 +9,7 @@ def test_counts():
  assert (WEAK_PIN_DFA.live_states(),len(WEAK_PIN_DFA.reachable()))==(41,42)
  assert (STRONG_PIN_DFA.live_states(),len(STRONG_PIN_DFA.reachable()))==(34,35)
  assert SESSION_DFA.live_states()==5
- assert PASSWORD_PRODUCT.live_states()==240 and PASSWORD_DFA.live_states()==196
+ assert len(PASSWORD_PRODUCT.reachable())==240 and PASSWORD_DFA.live_states()==196
  assert EMAIL_SUBSET.live_states()==9 and EMAIL_DFA.live_states()==8
 def test_pin_lengths():
  for n in range(7):assert PIN_DFA.accepts("7"*n)==(n==4)
