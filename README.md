@@ -66,9 +66,9 @@ Policy: length 8–16 inclusive; at least one uppercase letter, lowercase letter
 
 `Σ = {U, L, D, S, O}`. The accepted language is the intersection `L_U ∩ L_L ∩ L_D ∩ L_S ∩ L_len`. The product state tracks four class-presence flags and the length counter.
 
-| Construction | Live states | Trap | Total |
+| Construction | Reachable states | Separate trap state | Total states |
 |---|---:|---:|---:|
-| Reachable product DFA | 240 | included in product states | 240 |
+| Reachable product DFA | 240 | No separate trap; rejecting combinations are part of the product | 240 |
 | Minimized DFA | 196 | 1 | 197 |
 
 The product count is `1 + 5 + 11 + 15 + 13×16 = 240`. The minimized count is computed by the implementation's table-filling algorithm.
